@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>27 Months</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <button class="nav-toggle" aria-label="Open the menu" aria-controls="site-nav" aria-expanded="false"></button>
+
+    <main class="page">
+        <div class="content">
+            <h1>27 months</h1>
+            <p>Twenty-seven months of us, and counting.</p>
+
+            <div class="counter" aria-label="Time together">
+                <div><strong id="c-months">0</strong>months</div>
+                <div><strong id="c-days">0</strong>days</div>
+                <div><strong id="c-total">0</strong>days total</div>
+            </div>
+
+            <h2>A letter for you</h2>
+            <div class="letter">
+                <!-- Replace this with your own words -->
+                <p>Write your love letter here. Tell him what the last 27 months have meant to you.</p>
+            </div>
+
+            <h2>Our story so far</h2>
+            <ul class="timeline">
+                <!-- Copy a <li> for each memory -->
+                <li><time>Month 1</time>The day we got together.</li>
+                <li><time>Month 12</time>Our first anniversary.</li>
+                <li><time>Month 27</time>Today. Still choosing you.</li>
+            </ul>
+
+            <h2>Reasons I love you</h2>
+            <ol class="reasons">
+                <li>Add your first reason.</li>
+                <li>Add your second reason.</li>
+                <li>Add as many as you like.</li>
+            </ol>
+        </div>
+    </main>
+
+    <script src="nav.js"></script>
+    <script>
+        // SET THIS to the day you got together (YYYY-MM-DD)
+        const START = new Date("2024-07-10T00:00:00");
+
+        const now = new Date();
+        let months = (now.getFullYear() - START.getFullYear()) * 12 + (now.getMonth() - START.getMonth());
+        let anchor = new Date(START); anchor.setMonth(START.getMonth() + months);
+        if (anchor > now) { months--; anchor = new Date(START); anchor.setMonth(START.getMonth() + months); }
+        const dayMs = 86400000;
+        document.getElementById("c-months").textContent = Math.max(months, 0);
+        document.getElementById("c-days").textContent = Math.max(Math.floor((now - anchor) / dayMs), 0);
+        document.getElementById("c-total").textContent = Math.max(Math.floor((now - START) / dayMs), 0);
+    </script>
+</body>
+
+</html>

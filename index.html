@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Our Love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main class="page">
+        <div class="home">
+            <button class="heart-btn" aria-label="Open the menu" aria-controls="site-nav"
+                aria-expanded="false"></button>
+            <p class="hint">Tap the heart</p>
+
+            <div class="reveal">
+                <div class="polaroid">
+                    <!-- Put your photo at images/us.jpg -->
+                    <img src="images/us.jpg" alt="The two of us"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="placeholder">Add your photo as images/us.jpg</div>
+                </div>
+                <div class="surprise">
+                    <h1>Surprise!</h1>
+                    <p>I made a comprehensive website to track our love together.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="nav.js"></script>
+</body>
+
+</html>
