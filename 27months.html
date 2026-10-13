@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>27 Months</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,8 +16,8 @@
     <main class="page">
         <div class="content">
             <div class="badge" role="img" aria-label="27"></div>
-            <h1>months of us</h1>
-            <p class="tagline">and I'd choose you every single one</p>
+            <h1>27 months of gribby</h1>
+            <p class="tagline">and id choose you every single time</p>
 
 
 
@@ -44,19 +43,7 @@
     </main>
 
     <script src="nav.js"></script>
-    <script>
-        // SET THIS to the day you got together (YYYY-MM-DD)
-        const START = new Date("2024-07-10T00:00:00");
 
-        const now = new Date();
-        let months = (now.getFullYear() - START.getFullYear()) * 12 + (now.getMonth() - START.getMonth());
-        let anchor = new Date(START); anchor.setMonth(START.getMonth() + months);
-        if (anchor > now) { months--; anchor = new Date(START); anchor.setMonth(START.getMonth() + months); }
-        const dayMs = 86400000;
-        document.getElementById("c-months").textContent = Math.max(months, 0);
-        document.getElementById("c-days").textContent = Math.max(Math.floor((now - anchor) / dayMs), 0);
-        document.getElementById("c-total").textContent = Math.max(Math.floor((now - START) / dayMs), 0);
-    </script>
 </body>
 
 </html>

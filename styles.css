@@ -11,8 +11,8 @@
     --cream: #fff7f3;
     --peach: #fde0d6;
     --nav-w: 290px;
-    --display: "Great Vibes", cursive;
-    --hand: "Dancing Script", cursive;
+    --display: "MyFont", cursive;
+    --hand: "MyFont", cursive;
 }
 
 * {
@@ -23,6 +23,16 @@ html,
 body {
     min-height: 100%;
     margin: 0;
+}
+
+@font-face {
+    font-family: 'MyFont';
+    src: url('fonts/Myfont-Regular.ttf') format('truetype'),
+        url('fonts/Myfont-Regular.otf') format('opentype');
+    font-weight: 100 900;
+    /* stops the browser from faking bold */
+    font-style: normal;
+    font-display: swap;
 }
 
 body {
