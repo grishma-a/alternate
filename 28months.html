@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>27 Months</title>
-
-
+    <link rel="icon" href="images/heart.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -15,17 +14,31 @@
 
     <main class="page">
         <div class="content">
-            <div class="badge" role="img" aria-label="28"></div>
-            <h1>28 months of gribby</h1>
+            <div class="badge" role="img" aria-label="27"></div>
+            <h1>27 months of gribby</h1>
             <p class="tagline">and id choose you every single time</p>
 
-
-
             <h2 class="section-title">A letter for you</h2>
-            <div class="letter">
-                <!-- Replace this with your own words -->
-                <p>Write your love letter here. Tell him what the last 28 months have meant to you.</p>
-                <p class="sign">Forever yours ♡</p>
+            <div class="letter-wrap">
+
+                <!-- Photobooth strip: save 4 photos as images/booth1.jpg ... booth4.jpg -->
+                <div class="strip" aria-hidden="true">
+                    <span class="tape"></span>
+                    <span class="frame"><img src="images/booth1.jpg" alt="" onerror="this.remove()"></span>
+                    <span class="frame"><img src="images/booth2.jpg" alt="" onerror="this.remove()"></span>
+                    <span class="frame"><img src="images/booth3.jpg" alt="" onerror="this.remove()"></span>
+                    <span class="frame"><img src="images/booth4.jpg" alt="" onerror="this.remove()"></span>
+                    <span class="cap">gri + chibby</span>
+                </div>
+
+                <div class="letter">
+                    <span class="seal">♥</span>
+                    <!-- Replace this with your own words -->
+                    <p>Write your love letter here. Tell him what the last 27 months have meant to you.</p>
+                    <p>Add as many paragraphs as you want, the paper grows with your words.</p>
+                    <p class="sign">Forever yours ♡</p>
+                    <div class="vinyl" aria-hidden="true"></div>
+                </div>
             </div>
 
             <h2 class="section-title">Our story so far</h2>
@@ -33,17 +46,21 @@
                 <!-- Copy a <li> for each memory -->
                 <li><time>Month 1</time>The day we got together.</li>
                 <li><time>Month 12</time>Our first anniversary.</li>
-                <li><time>Month 28</time>Today. Still choosing you.</li>
+                <li><time>Month 27</time>Today. Still choosing you.</li>
             </ul>
 
+            <h2 class="section-title">A song for you</h2>
+            <div class="song">
+                <p>Add the name of your song here, and a link:<br>
+                    <a href="https://open.spotify.com/" target="_blank" rel="noopener">play our song ♫</a>
+                </p>
+            </div>
 
-
-            <p class="forever">here's to the next 28 ♡</p>
+            <p class="forever">here's to the next 27 ♡</p>
         </div>
     </main>
 
     <script src="nav.js"></script>
-
 </body>
 
 </html>

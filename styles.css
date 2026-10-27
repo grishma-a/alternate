@@ -1,15 +1,22 @@
+@font-face {
+    font-family: 'MyFont';
+    src: url('fonts/Myfont-Regular.ttf') format('truetype'),
+        url('fonts/Myfont-Regular.otf') format('opentype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-    --pink: #f4aebd;
-    /* pastel pink */
-    --pink-soft: #fad4dc;
-    --pink-pale: #fde8ec;
-    --red: #d4636f;
-    /* soft red */
-    --red-deep: #b94a58;
-    --wine: #6e2f3b;
-    /* text */
-    --cream: #fff7f3;
-    --peach: #fde0d6;
+    --bg: #5a0b12;
+    --bg-deep: #3b070c;
+    --wine: #7a1620;
+    --red: #b3202f;
+    --rose: #d9777f;
+    --blush: #f4c4c9;
+    --cream: #fff8f1;
+    --gold: #e8d3a8;
+    --ink: #5a1a22;
     --nav-w: 290px;
     --display: "MyFont", cursive;
     --hand: "MyFont", cursive;
@@ -25,22 +32,13 @@ body {
     margin: 0;
 }
 
-@font-face {
-    font-family: 'MyFont';
-    src: url('fonts/Myfont-Regular.ttf') format('truetype'),
-        url('fonts/Myfont-Regular.otf') format('opentype');
-    font-weight: 100 900;
-    /* stops the browser from faking bold */
-    font-style: normal;
-    font-display: swap;
-}
-
 body {
-    background: linear-gradient(160deg, #fbd5dd 0%, #fde8ec 50%, #f8c8d2 100%) fixed;
-    color: var(--wine);
+    background:
+        radial-gradient(rgba(255, 255, 255, .035) 1px, transparent 1.5px) 0 0 / 22px 22px,
+        radial-gradient(ellipse at 50% 0%, #85182a 0%, var(--bg) 55%, var(--bg-deep) 100%) fixed;
+    color: var(--cream);
     font-family: var(--hand);
-    font-weight: 600;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     line-height: 1.5;
     overflow-x: hidden;
 }
@@ -52,10 +50,10 @@ h3 {
     font-weight: 400;
     line-height: 1.1;
     font-family: var(--display);
-    color: var(--red);
+    color: var(--cream);
 }
 
-/* ---------- Floating hearts background ---------- */
+/* ---------- Floating hearts (from nav.js) ---------- */
 .floaty {
     position: fixed;
     inset: 0;
@@ -78,7 +76,7 @@ h3 {
     }
 
     10% {
-        opacity: .55;
+        opacity: .5;
     }
 
     50% {
@@ -86,7 +84,7 @@ h3 {
     }
 
     90% {
-        opacity: .35;
+        opacity: .3;
     }
 
     100% {
@@ -107,7 +105,6 @@ h3 {
     }
 }
 
-/* ---------- Heart image (your PNG, SVG fallback) ---------- */
 .heart-img,
 .heart-btn svg,
 .nav-toggle svg,
@@ -125,10 +122,11 @@ h3 {
     bottom: 0;
     width: var(--nav-w);
     max-width: 86vw;
-    background: rgba(255, 247, 243, .93);
+    background: rgba(59, 7, 12, .94);
     backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(244, 196, 201, .25);
     border-radius: 0 32px 32px 0;
-    box-shadow: 8px 0 40px rgba(212, 99, 111, .25);
+    box-shadow: 8px 0 40px rgba(0, 0, 0, .45);
     padding: 5.5rem 1.4rem 2rem;
     transform: translateX(-108%);
     transition: transform .5s cubic-bezier(.2, .9, .3, 1.15);
@@ -149,6 +147,7 @@ h3 {
     text-align: center;
     font-size: 1.3rem;
     margin: -.4rem 0 1.1rem;
+    color: var(--blush);
 }
 
 .nav ul {
@@ -167,36 +166,35 @@ h3 {
     gap: .6rem;
     padding: .6rem 1.1rem;
     border-radius: 999px;
-    background: var(--pink-pale);
-    border: 2px solid var(--pink-soft);
-    color: var(--wine);
+    background: rgba(255, 248, 241, .07);
+    border: 1.5px solid rgba(244, 196, 201, .35);
+    color: var(--cream);
     text-decoration: none;
     font-size: 1.35rem;
-    font-weight: 700;
     transition: transform .2s, background .2s;
 }
 
 .nav a::before {
     content: "♡";
-    color: var(--red);
+    color: var(--rose);
 }
 
 .nav a:hover,
 .nav a:focus-visible {
     transform: translateX(6px);
-    background: var(--pink-soft);
+    background: rgba(244, 196, 201, .2);
     outline: none;
 }
 
 .nav a[aria-current="page"] {
-    background: linear-gradient(90deg, var(--red), #e08790);
-    border-color: var(--red);
-    color: #fff;
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--wine);
 }
 
 .nav a[aria-current="page"]::before {
     content: "♥";
-    color: #fff;
+    color: var(--red);
 }
 
 .nav .ext::after {
@@ -225,14 +223,26 @@ h3 {
 
 .nav-toggle img,
 .nav-toggle svg {
-    filter: drop-shadow(0 4px 8px rgba(212, 99, 111, .5));
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .5));
 }
 
 .nav-toggle:focus-visible,
 .heart-btn:focus-visible {
-    outline: 3px dashed var(--wine);
+    outline: 3px dashed var(--blush);
     outline-offset: 5px;
     border-radius: 50%;
+}
+
+/* ---------- Shared scrapbook bits ---------- */
+.tape {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    width: 96px;
+    height: 28px;
+    transform: translateX(-50%) rotate(3deg);
+    background: repeating-linear-gradient(45deg, rgba(244, 196, 201, .9) 0 9px, rgba(255, 240, 240, .9) 9px 18px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
 }
 
 /* ---------- Home ---------- */
@@ -247,8 +257,9 @@ h3 {
 }
 
 .kicker {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin: 0 0 .5rem;
+    color: var(--blush);
 }
 
 .heart-wrap {
@@ -271,16 +282,16 @@ h3 {
 
 .heart-btn img,
 .heart-btn svg {
-    filter: drop-shadow(0 14px 22px rgba(212, 99, 111, .45));
+    filter: drop-shadow(0 0 28px rgba(217, 119, 127, .55)) drop-shadow(0 14px 20px rgba(0, 0, 0, .4));
 }
 
 .heart-wrap::before,
 .heart-wrap::after {
     content: "✦";
     position: absolute;
-    color: #fff;
+    color: var(--gold);
     font-size: 1.6rem;
-    text-shadow: 0 0 10px var(--pink);
+    text-shadow: 0 0 10px var(--rose);
     animation: twinkle 2.2s ease-in-out infinite;
 }
 
@@ -299,6 +310,7 @@ h3 {
 .hint {
     font-size: 1.8rem;
     margin: .6rem 0 0;
+    color: var(--blush);
     animation: bob 1.6s ease-in-out infinite;
 }
 
@@ -316,7 +328,7 @@ h3 {
 
 .reveal {
     display: none;
-    margin-top: 1.2rem;
+    margin-top: 1.4rem;
     width: min(92vw, 520px);
 }
 
@@ -329,14 +341,13 @@ h3 {
     position: relative;
     margin: 0;
     background: #fff;
-    padding: 14px 14px 22px;
-    border-radius: 6px;
+    padding: 14px 14px 24px;
+    border-radius: 3px;
     transform: rotate(-3deg);
-    box-shadow: 0 18px 40px rgba(110, 47, 59, .22);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
 }
 
 .polaroid::before {
-    /* washi tape */
     content: "";
     position: absolute;
     top: -14px;
@@ -344,9 +355,8 @@ h3 {
     width: 110px;
     height: 30px;
     transform: translateX(-50%) rotate(3deg);
-    background: repeating-linear-gradient(45deg, #f7c6cf 0 10px, #fde3e8 10px 20px);
-    opacity: .92;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+    background: repeating-linear-gradient(45deg, rgba(244, 196, 201, .92) 0 10px, rgba(255, 240, 240, .92) 10px 20px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
 }
 
 .polaroid img,
@@ -355,7 +365,7 @@ h3 {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    background: var(--pink-soft);
+    background: var(--blush);
 }
 
 .polaroid .placeholder {
@@ -366,64 +376,55 @@ h3 {
 }
 
 .polaroid figcaption {
-    font-size: 1.9rem;
+    font-size: 2rem;
     margin-top: .5rem;
-    color: var(--red);
+    color: var(--wine);
 }
 
 .surprise {
     position: relative;
-    margin-top: 1.8rem;
-    padding: 1.5rem 1.6rem;
-    border-radius: 28px;
-    background: linear-gradient(135deg, #c85560, #dc7a84);
-    color: #fff;
-    box-shadow: 0 12px 28px rgba(200, 85, 96, .35);
-    outline: 2px dashed rgba(255, 255, 255, .85);
-    outline-offset: -10px;
+    margin-top: 2rem;
+    padding: 1.6rem 1.6rem 1.4rem;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 6px;
+    transform: rotate(1.2deg);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .45);
+    outline: 1.5px dashed rgba(122, 22, 32, .45);
+    outline-offset: -9px;
 }
 
 .surprise h1 {
-    color: #fff;
-    font-size: clamp(2rem, 2vw, 4.2rem);
+    color: var(--red);
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
     margin-bottom: .1rem;
 }
 
 .surprise p {
     margin: 0;
     font-size: 1.5rem;
-    font-weight: 700;
     line-height: 1.3;
 }
 
-.surprise::before,
-.surprise::after {
+.surprise::before {
     content: "♥";
     position: absolute;
-    color: #fff;
-    opacity: .85;
-}
-
-.surprise::before {
-    top: -14px;
+    top: -20px;
     right: 22px;
-    font-size: 2rem;
-    transform: rotate(14deg);
-    color: var(--red);
-    text-shadow: 0 0 0 #fff;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.3rem;
+    background: radial-gradient(circle at 35% 30%, #d34a5a, var(--red) 60%, #7a1620);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .35);
 }
 
-.surprise::after {
-    bottom: -10px;
-    left: 24px;
-    font-size: 1.4rem;
-    transform: rotate(-12deg);
-    color: var(--pink);
-}
-
-/* ---------- Anniversary page ---------- */
+/* ---------- 27 months page ---------- */
 .content {
-    max-width: 700px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 5.5rem 1.25rem 4rem;
     text-align: center;
@@ -431,14 +432,14 @@ h3 {
 
 .badge {
     position: relative;
-    width: min(60vw, 230px);
+    width: min(60vw, 220px);
     margin: 0 auto;
     animation: beat 2s ease-in-out infinite;
 }
 
 .badge img,
 .badge svg {
-    filter: drop-shadow(0 14px 22px rgba(212, 99, 111, .45));
+    filter: drop-shadow(0 0 26px rgba(217, 119, 127, .5)) drop-shadow(0 14px 20px rgba(0, 0, 0, .4));
 }
 
 .badge-num {
@@ -449,133 +450,230 @@ h3 {
     padding-bottom: 8%;
     font-family: var(--display);
     font-size: clamp(3.2rem, 14vw, 5rem);
-    color: #fff;
-    text-shadow: 0 2px 6px rgba(110, 47, 59, .45);
+    color: var(--cream);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .45);
 }
 
 .content h1 {
-    font-size: clamp(3.2rem, 13vw, 5rem);
-    margin-top: .4rem;
+    font-size: clamp(3rem, 12vw, 4.8rem);
+    margin-top: .5rem;
 }
 
 .tagline {
     font-size: 1.7rem;
     margin: 0 0 1.5rem;
+    color: var(--blush);
 }
-
-
-
-
 
 .section-title {
     font-size: 3rem;
-    margin: 3rem 0 1rem;
+    margin: 3.2rem 0 1.4rem;
+    color: var(--cream);
 }
 
 .section-title::before,
 .section-title::after {
-    content: "♡";
-    margin: 0 .5rem;
-    font-family: var(--hand);
-    font-size: 1.5rem;
-    color: var(--pink);
+    content: "✦";
+    margin: 0 .6rem;
+    font-size: 1.2rem;
+    color: var(--gold);
+    vertical-align: middle;
+}
+
+/* letter on gingham, with photobooth strip */
+.letter-wrap {
+    position: relative;
+    margin: 0 auto;
+    padding: 26px 22px 26px 22px;
+    background-color: #fbeaea;
+    background-image:
+        linear-gradient(90deg, rgba(150, 25, 40, .55) 50%, transparent 50%),
+        linear-gradient(rgba(150, 25, 40, .55) 50%, transparent 50%);
+    background-size: 34px 34px;
+    border-radius: 4px;
+    box-shadow: 0 20px 44px rgba(0, 0, 0, .5);
+    transform: rotate(-.6deg);
 }
 
 .letter {
     position: relative;
-    text-align: left;
-    padding: 2rem 1.6rem 1.6rem;
-    border-radius: 14px;
-    background: #fffcf8 repeating-linear-gradient(transparent 0 35px, #f8d3da 35px 36px);
-    line-height: 36px;
-    font-size: 1.6rem;
-    color: var(--wine);
-    box-shadow: 0 14px 30px rgba(110, 47, 59, .16);
-    transform: rotate(-.6deg);
+    text-align: center;
+    padding: 2.6rem 1.6rem 2rem 6.2rem;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 1.5rem;
+    line-height: 1.6;
+    clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
 }
 
-.letter::before {
-    /* wax seal */
-    content: "♥";
+.letter::after {
+    content: "";
     position: absolute;
-    top: -18px;
-    right: 24px;
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 1.3rem;
-    background: radial-gradient(circle at 35% 30%, #e58891, var(--red) 60%, var(--red-deep));
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(to bottom left, transparent 50%, #e6c4c4 50%);
 }
 
 .letter p {
-    margin: 0;
+    margin: 0 0 1rem;
 }
 
 .letter .sign {
     text-align: right;
-    margin-top: 1rem;
-    font-family: var(--display);
+    margin: 1.2rem 0 0;
     font-size: 2.2rem;
     color: var(--red);
 }
 
+.seal {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    margin-left: -10px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.2rem;
+    z-index: 3;
+    background: radial-gradient(circle at 35% 30%, #d34a5a, var(--red) 60%, #7a1620);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .35);
+}
+
+/* photobooth strip */
+.strip {
+    position: absolute;
+    z-index: 2;
+    top: 8px;
+    left: -16px;
+    width: 104px;
+    padding: 22px 8px 12px;
+    background: #fffdf9;
+    border-radius: 3px;
+    transform: rotate(-4deg);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .45);
+}
+
+.strip .tape {
+    width: 70px;
+    top: -12px;
+}
+
+.strip .frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    margin: 0 0 7px;
+    background: linear-gradient(135deg, var(--rose), var(--wine));
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .12);
+}
+
+.strip .frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(.25) saturate(1.1) contrast(1.05);
+}
+
+.strip .cap {
+    display: block;
+    text-align: center;
+    font-size: .95rem;
+    color: var(--wine);
+    line-height: 1;
+    padding-top: 2px;
+}
+
+/* vinyl sticker */
+.vinyl {
+    position: absolute;
+    right: 14px;
+    bottom: -22px;
+    z-index: 3;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, var(--cream) 0 4px, var(--red) 5px 17px, #1a1a1a 18px 100%),
+        repeating-radial-gradient(#1a1a1a 0 2px, #2c2c2c 2px 3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .5);
+    animation: spin 9s linear infinite;
+}
+
+/* timeline */
 .timeline {
     list-style: none;
-    padding: 0 0 0 1.4rem;
+    padding: 0 0 0 1.6rem;
     margin: 0;
     text-align: left;
-    border-left: 3px dotted var(--pink);
+    border-left: 3px dotted var(--rose);
 }
 
 .timeline li {
     position: relative;
-    margin: 0 0 1.2rem;
-    padding: .8rem 1.1rem;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 6px 16px rgba(212, 99, 111, .14);
+    margin: 0 0 1.3rem;
+    padding: .9rem 1.2rem;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .35);
+    transform: rotate(-.8deg);
 }
 
 .timeline li:nth-child(even) {
-    background: var(--pink-pale);
+    transform: rotate(.8deg);
+    background: #fbeaea;
 }
 
 .timeline li::before {
     content: "♥";
     position: absolute;
-    left: -2.25rem;
+    left: -2.5rem;
     top: .6rem;
-    color: var(--red);
+    color: var(--rose);
     font-size: 1.4rem;
-    background: var(--pink-pale);
-    border-radius: 50%;
     line-height: 1;
+    background: var(--bg);
+    border-radius: 50%;
     padding: 2px;
 }
 
 .timeline time {
     display: block;
-    font-family: var(--display);
     font-size: 1.9rem;
     color: var(--red);
     line-height: 1.2;
 }
 
+/* song box */
+.song {
+    position: relative;
+    margin: 0 auto;
+    max-width: 440px;
+    padding: 1.6rem;
+    background: rgba(255, 248, 241, .08);
+    border: 1.5px dashed rgba(244, 196, 201, .5);
+    border-radius: 6px;
+}
 
-
+.song a {
+    color: var(--gold);
+}
 
 .forever {
     margin-top: 3.5rem;
-    font-family: var(--display);
     font-size: 2.8rem;
-    color: var(--red);
+    color: var(--blush);
+    font-family: var(--display);
 }
 
-/* ---------- Heart burst ---------- */
+/* ---------- Heart burst + animations ---------- */
 .burst {
     position: fixed;
     z-index: 50;
@@ -645,6 +743,24 @@ h3 {
     to {
         opacity: 1;
         transform: none;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 520px) {
+    .letter {
+        padding-left: 5.4rem;
+        font-size: 1.35rem;
+    }
+
+    .strip {
+        width: 86px;
+        left: -12px;
     }
 }
 
