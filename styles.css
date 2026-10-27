@@ -3,6 +3,7 @@
     src: url('fonts/Myfont-Regular.ttf') format('truetype'),
         url('fonts/Myfont-Regular.otf') format('opentype');
     font-weight: 100 900;
+    size-adjust: 200%;
     font-style: normal;
     font-display: swap;
 }
@@ -478,6 +479,10 @@ h3 {
     font-size: 1.2rem;
     color: var(--gold);
     vertical-align: middle;
+    display: inline-block;
+    /* Required for transform to work */
+    transform: translateY(-1rem);
+    /* Adjust this value to go higher */
 }
 
 /* letter on gingham, with photobooth strip */
@@ -603,7 +608,11 @@ h3 {
         radial-gradient(circle, var(--cream) 0 4px, var(--red) 5px 17px, #1a1a1a 18px 100%),
         repeating-radial-gradient(#1a1a1a 0 2px, #2c2c2c 2px 3px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, .5);
-    animation: spin 9s linear infinite;
+    display: inline-block;
+    /* Required for transform to work */
+    transform: translateY(1rem);
+    /* Adjust this value to go higher */
+
 }
 
 /* timeline */
