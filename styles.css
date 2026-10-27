@@ -8,6 +8,26 @@
     font-display: swap;
 }
 
+/* your letters */
+
+/* your numbers (only used for the characters 0-9) */
+@font-face {
+    font-family: 'MyFont';
+    src: url('fonts/Numbers-Regular.otf') format('truetype'),
+        url('fonts/Numbers-Regular.ttf') format('opentype');
+    font-weight: 100 900;
+    size-adjust: 400%;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0030-0039;
+}
+
+.num {
+    position: relative;
+    top: .75em;
+    /* increase to push numbers lower, decrease to push them higher */
+}
+
 :root {
     --bg: #5a0b12;
     --bg-deep: #3b070c;

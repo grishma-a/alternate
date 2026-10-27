@@ -76,6 +76,29 @@
     </main>
 
     <script src="nav.js"></script>
+    <script>
+        (function () {
+            const walk = n => {
+                if (n.nodeType === 3) {
+                    if (!/\d/.test(n.nodeValue)) return;
+                    const frag = document.createDocumentFragment();
+                    n.nodeValue.split(/(\d+)/).forEach(part => {
+                        if (!part) return;
+                        if (/^\d+$/.test(part)) {
+                            const s = document.createElement('span');
+                            s.className = 'num';
+                            s.textContent = part;
+                            frag.appendChild(s);
+                        } else frag.appendChild(document.createTextNode(part));
+                    });
+                    n.replaceWith(frag);
+                } else if (n.nodeType === 1 && !/^(SCRIPT|STYLE|SVG|TEXTAREA)$/i.test(n.tagName) && !n.classList.contains('num')) {
+                    [...n.childNodes].forEach(walk);
+                }
+            };
+            walk(document.body);
+        })();
+    </script>
 </body>
 
 </html>
