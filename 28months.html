@@ -1,0 +1,400 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Dearest - 28 Months</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #4a0e17;
+            /* Deep rich wine/maroon fall red */
+            color: #fce7e6;
+            overflow-x: hidden;
+        }
+
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Custom smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #380a11;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #7a1c29;
+            border-radius: 4px;
+        }
+
+        /* Falling autumn leaves canvas */
+        #leaves-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Airplane animation */
+        @keyframes flyPath {
+            0% {
+                transform: translate(-100px, 100vh) rotate(-15deg) scale(0.8);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: translate(50vw, 20vh) rotate(-5deg) scale(1);
+            }
+
+            90% {
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translate(110vw, -100px) rotate(10deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .flying-airplane {
+            position: fixed;
+            z-index: 50;
+            pointer-events: none;
+            animation: flyPath 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Polaroid Photo Stack Tilt */
+        .polaroid {
+            background: #fff;
+            color: #2b2b2b;
+            padding: 12px 12px 35px 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .polaroid:hover {
+            transform: translateY(-8px) rotate(0deg) scale(1.03);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+            z-index: 40;
+        }
+
+        /* Wax Seal Style */
+        .wax-seal {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #a31c2c, #5c0f18);
+            border-radius: 50%;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        /* Puzzle Heart Clip Path / Grid Styles */
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 4px;
+            width: 320px;
+            height: 320px;
+            clip-path: polygon(50% 15%, 65% 2%, 85% 2%, 98% 20%, 98% 45%, 50% 95%, 2% 45%, 2% 20%, 15% 2%, 35% 2%);
+            background: #380a11;
+            padding: 4px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .puzzle-piece {
+            overflow: hidden;
+            position: relative;
+            background-size: 320px 320px;
+            transition: transform 0.3s ease;
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-rose-900 selection:text-white">
+
+    <!-- Background Falling Autumn Leaves Canvas -->
+    <canvas id="leaves-canvas"></canvas>
+
+    <!-- Realistic Airplane Flying Across Screen -->
+    <div class="flying-airplane">
+        <svg width="90" height="90" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M21 16V14L13 9V3.5C13 2.67 12.33 2 11.5 2C10.67 2 10 2.67 10 3.5V9L2 14V16L10 13.5V19L8 20.5V22L11.5 21L15 22V20.5L13 19V13.5L21 16Z"
+                fill="#fce7e6" fill-opacity="0.9" />
+        </svg>
+    </div>
+
+    <!-- Top Navigation / Header -->
+    <header class="relative z-20 w-full py-8 px-6 text-center">
+        <p class="handwritten text-2xl text-rose-200 tracking-wider mb-1">October &bull; 28 Months Together</p>
+        <h1 class="serif-font text-4xl md:text-6xl font-medium tracking-wide text-white drop-shadow-md">To My Dearest
+        </h1>
+        <div class="w-24 h-[1px] bg-rose-300/40 mx-auto mt-4"></div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="relative z-20 max-w-5xl mx-auto px-6 py-4 flex flex-col items-center gap-16 w-full">
+
+        <!-- Section 1: Interactive Envelope & Letter -->
+        <section class="w-full max-w-xl flex flex-col items-center">
+            <p class="handwritten text-xl text-rose-200 mb-3">Click the wax seal to open your letter</p>
+
+            <!-- Envelope Container -->
+            <div id="envelope-box"
+                class="relative w-full bg-[#f4ebd0] text-[#3a2d28] rounded-xl shadow-2xl p-8 cursor-pointer transition-transform duration-500 hover:scale-[1.01]"
+                onclick="toggleLetter()">
+                <!-- Envelope Flap (Top triangle) -->
+                <div
+                    class="absolute top-0 left-0 w-full h-28 bg-[#e8dbb7] clip-path-flap rounded-t-xl border-b border-[#d4c59d]">
+                </div>
+
+                <!-- Wax Seal -->
+                <div class="absolute top-20 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                    <div class="wax-seal">
+                        <span class="handwritten text-xl text-amber-100 font-bold">28</span>
+                    </div>
+                </div>
+
+                <!-- Letter Preview / Summary Header inside envelope -->
+                <div class="pt-12 pb-4 text-center">
+                    <p class="handwritten text-3xl text-rose-900 font-bold">To my dearest...</p>
+                    <p class="serif-font text-sm text-stone-600 mt-1">Happy 28 Months Anniversary</p>
+                </div>
+
+                <!-- Full Letter Content (Hidden/Shown on click) -->
+                <div id="letter-content" class="hidden mt-6 pt-6 border-t border-stone-300 transition-all duration-700">
+                    <p class="handwritten text-2xl leading-relaxed text-stone-800">
+                        My love,
+                    </p>
+                    <p class="handwritten text-xl leading-relaxed text-stone-800 mt-3">
+                        Twenty-eight months of loving you, of sharing our lives across miles, and counting down every
+                        single flight until I get to hold you again. No matter how many planes I take or how many miles
+                        are between us, every second is worth it because it leads right back to you.
+                    </p>
+                    <p class="handwritten text-xl leading-relaxed text-stone-800 mt-3">
+                        Thank you for being my home, my comfort, and my absolute favorite part of every day. Here is to
+                        28 months of beautiful memories, and a lifetime more to come.
+                    </p>
+                    <p class="handwritten text-2xl text-rose-900 text-right mt-6">
+                        Forever yours &bull;
+                    </p>
+                </div>
+
+                <div class="text-center mt-4">
+                    <span id="envelope-prompt"
+                        class="text-xs uppercase tracking-widest text-stone-500 font-semibold">Click to Read
+                        Letter</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Heart Puzzle Photo Collage -->
+        <section class="w-full flex flex-col items-center py-6">
+            <div class="text-center mb-8">
+                <h2 class="serif-font text-3xl md:text-4xl text-white font-normal">Pieces of My Heart</h2>
+                <p class="handwritten text-xl text-rose-200 mt-1">Interlocking memories across the distance</p>
+            </div>
+
+            <!-- Puzzle Heart Container -->
+            <div
+                class="relative p-6 bg-gradient-to-b from-[#5c0f18]/60 to-[#380a11]/80 rounded-2xl border border-rose-300/20 backdrop-blur-sm shadow-2xl flex flex-col items-center">
+
+                <!-- The 4x4 Puzzle Heart Grid -->
+                <div class="puzzle-grid" id="puzzleContainer">
+                    <!-- Javascript will slice and populate background positions for true photo puzzle effect -->
+                </div>
+
+                <div class="mt-6 flex items-center gap-6 text-sm text-rose-200/80 font-light">
+                    <span>&bull; 28 Months</span>
+                    <span>&bull; Endless Countdowns</span>
+                    <span>&bull; One Heart</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Polaroid Photo Strip & Memories -->
+        <section class="w-full flex flex-col items-center py-6">
+            <div class="text-center mb-10">
+                <h2 class="serif-font text-3xl text-white font-normal">Our Gallery</h2>
+                <p class="handwritten text-xl text-rose-200">Captured moments in time</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                <!-- Polaroid 1 -->
+                <div class="polaroid transform -rotate-2">
+                    <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
+                        <img src="https://placehold.co/400x500/7a1c29/fce7e6?text=Our+First+Flight" alt="Memory 1"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
+                            onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+1'">
+                    </div>
+                    <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Airport goodbyes & hellos</p>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid transform rotate-1 mt-4 md:mt-0">
+                    <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
+                        <img src="https://placehold.co/400x500/5c0f18/fce7e6?text=Autumn+Walks" alt="Memory 2"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
+                            onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+2'">
+                    </div>
+                    <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Fall weather with you</p>
+                </div>
+
+                <!-- Polaroid 3 -->
+                <div class="polaroid transform -rotate-1 mt-4 md:mt-0">
+                    <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
+                        <img src="https://placehold.co/400x500/380a11/fce7e6?text=28+Months" alt="Memory 3"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
+                            onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+3'">
+                    </div>
+                    <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Counting every month</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full py-10 text-center border-t border-rose-900/40 mt-12 bg-[#380a11]/60">
+        <p class="serif-font text-lg text-rose-200">Forever & Always</p>
+        <p class="handwritten text-2xl text-rose-300 mt-1">28 Months & Counting</p>
+    </footer>
+
+    <!-- JavaScript for Falling Autumn Leaves & Interactive Letter & Puzzle Generation -->
+    <script>
+        // 1. Envelope Letter Toggle Function
+        function toggleLetter() {
+            const letter = document.getElementById('letter-content');
+            const prompt = document.getElementById('envelope-prompt');
+            if (letter.classList.contains('hidden')) {
+                letter.classList.remove('hidden');
+                prompt.textContent = 'Click to Close Letter';
+            } else {
+                letter.classList.add('hidden');
+                prompt.textContent = 'Click to Read Letter';
+            }
+        }
+
+        // 2. Generate Puzzle Pieces with a sample collage photo background
+        window.addEventListener('DOMContentLoaded', () => {
+            const puzzleContainer = document.getElementById('puzzleContainer');
+            // Using a rich aesthetic fall/couple placeholder image URL
+            const imageUrl = 'https://placehold.co/320x320/7a1c29/fce7e6?text=Our+Love+Story';
+
+            for (let i = 0; i < 16; i++) {
+                const row = Math.floor(i / 4);
+                const col = i % 4;
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece rounded-sm shadow-inner';
+                piece.style.backgroundImage = `url(${imageUrl})`;
+                piece.style.backgroundPosition = `-${col * 80}px -${row * 80}px`;
+                piece.style.backgroundSize = '320px 320px';
+                puzzleContainer.appendChild(piece);
+            }
+        });
+
+        // 3. Falling Autumn Leaves Canvas Animation (Soft leaf shapes, warm autumn tones)
+        const canvas = document.getElementById('leaves-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const leaves = [];
+        const leafCount = 25;
+        // Warm autumn color palette (deep reds, amber, terracotta)
+        const leafColors = ['#8c1c28', '#b33939', '#d97706', '#991b1b', '#b45309'];
+
+        for (let i = 0; i < leafCount; i++) {
+            leaves.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 12 + 8,
+                speedY: Math.random() * 1.2 + 0.6,
+                speedX: Math.random() * 1 - 0.5,
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 2 - 1,
+                color: leafColors[Math.floor(Math.random() * leafColors.length)],
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+
+        function drawLeaf(ctx, leaf) {
+            ctx.save();
+            ctx.translate(leaf.x, leaf.y);
+            ctx.rotate((leaf.rotation * Math.PI) / 180);
+            ctx.fillStyle = leaf.color;
+            ctx.globalAlpha = leaf.opacity;
+
+            // Simple aesthetic leaf vector path
+            ctx.beginPath();
+            ctx.moveTo(0, -leaf.size);
+            ctx.bezierCurveTo(leaf.size / 2, -leaf.size / 2, leaf.size / 2, leaf.size / 2, 0, leaf.size);
+            ctx.bezierCurveTo(-leaf.size / 2, leaf.size / 2, -leaf.size / 2, -leaf.size / 2, 0, -leaf.size);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function animateLeaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            leaves.forEach(leaf => {
+                leaf.y += leaf.speedY;
+                leaf.x += leaf.speedX + Math.sin(leaf.y * 0.02) * 0.3;
+                leaf.rotation += leaf.rotationSpeed;
+
+                // Reset leaf to top if it goes off screen
+                if (leaf.y > canvas.height + 20) {
+                    leaf.y = -20;
+                    leaf.x = Math.random() * canvas.width;
+                }
+
+                drawLeaf(ctx, leaf);
+            });
+
+            requestAnimationFrame(animateLeaves);
+        }
+
+        animateLeaves();
+    </script>
+    <script src="nav.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

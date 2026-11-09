@@ -4,7 +4,9 @@
 const LINKS = [
     { label: "valentine's website", href: "https://grishma-a.github.io/valentines-website/index.html", external: true },
     { label: "nbf day", href: "https://grishma-a.github.io/nbfday/index.html", external: true },
+    { label: "coffee", href: "coffee.html", external: false },
     { label: "27 months", href: "27months.html", external: false },
+    { label: "28 months", href: "28months.html", external: false }
     // { label: "Next page", href: "next-page.html", external: false },
 ];
 
@@ -35,11 +37,9 @@ function buildFloaty() {
     const layer = document.createElement("div");
     layer.className = "floaty";
     layer.setAttribute("aria-hidden", "true");
-    const glyphs = ["♥", "♡", "♥", "✿"];
     const colors = ["#f4aebd", "#d4636f", "#f7c6cf", "#e08790"];
     for (let i = 0; i < 16; i++) {
         const s = document.createElement("span");
-        s.textContent = glyphs[i % glyphs.length];
         s.style.color = colors[i % colors.length];
         s.style.left = Math.random() * 100 + "%";
         s.style.fontSize = 14 + Math.random() * 26 + "px";

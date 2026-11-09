@@ -22,12 +22,6 @@
     unicode-range: U+0030-0039;
 }
 
-.num {
-    position: relative;
-    top: .75em;
-    /* increase to push numbers lower, decrease to push them higher */
-}
-
 :root {
     --bg: #5a0b12;
     --bg-deep: #3b070c;
