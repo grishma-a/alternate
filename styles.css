@@ -68,6 +68,22 @@ h3 {
     color: var(--cream);
 }
 
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #380a11;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7a1c29;
+    border-radius: 4px;
+}
+
+
+
 /* ---------- Floating hearts (from nav.js) ---------- */
 .floaty {
     position: fixed;
@@ -190,7 +206,7 @@ h3 {
 }
 
 .nav a::before {
-    content: "♡";
+    content: " ";
     color: var(--rose);
 }
 
@@ -208,12 +224,12 @@ h3 {
 }
 
 .nav a[aria-current="page"]::before {
-    content: "♥";
+    content: " ";
     color: var(--red);
 }
 
 .nav .ext::after {
-    content: "↗";
+    content: "";
     margin-left: auto;
     opacity: .6;
 }
@@ -798,5 +814,102 @@ h3 {
 
     .floaty {
         display: none;
+    }
+}
+
+/* ===== phones ===== */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+img,
+canvas {
+    max-width: 100%;
+}
+
+.home {
+    min-height: 100dvh;
+}
+
+.nav-toggle {
+    top: calc(.6rem + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 700px) {
+    body {
+        font-size: 1.2rem;
+    }
+
+    .nav {
+        width: 84vw;
+        padding: 5rem 1rem 2rem;
+    }
+
+    .nav h2 {
+        font-size: 2.2rem;
+    }
+
+    .nav a {
+        font-size: 1.2rem;
+        padding: .5rem .9rem;
+    }
+
+    .content {
+        padding: 5rem .9rem 3rem;
+    }
+
+    .section-title {
+        font-size: 2.3rem;
+        margin: 2.4rem 0 1rem;
+    }
+
+    .tagline {
+        font-size: 1.4rem;
+    }
+
+    .letter-wrap {
+        padding: 16px 12px;
+    }
+
+    .letter {
+        padding: 2.2rem 1rem 1.6rem;
+        font-size: 1.3rem;
+    }
+
+    .strip {
+        position: relative;
+        top: auto;
+        left: auto;
+        display: flex;
+        gap: 6px;
+        width: auto;
+        margin: 0 0 14px;
+        padding: 18px 8px 8px;
+        transform: rotate(-1deg);
+        overflow-x: auto;
+    }
+
+    .strip .frame {
+        flex: 0 0 72px;
+        margin: 0;
+    }
+
+    .strip .cap {
+        display: none;
+    }
+
+    .timeline {
+        padding-left: 1.2rem;
+    }
+
+    .timeline li::before {
+        left: -2rem;
+    }
+
+    .vinyl {
+        width: 64px;
+        height: 64px;
+        right: 8px;
+        bottom: -16px;
     }
 }

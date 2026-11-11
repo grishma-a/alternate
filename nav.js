@@ -33,6 +33,16 @@ function heartMarkup() {
     return `<img class="heart-img" src="${HEART_SRC}" alt="" onerror="useFallbackHeart(this)">`;
 }
 
+// Put page content inside .page so it slides over when the menu opens (any page missing the wrapper)
+(function wrapPage() {
+    if (document.querySelector(".page")) return;
+    const main = document.createElement("main");
+    main.className = "page";
+    const skip = "nav, .nav-toggle, .floaty, script, style, link, svg";
+    [...document.body.children].forEach(el => { if (!el.matches(skip)) main.appendChild(el); });
+    document.body.insertBefore(main, document.body.querySelector(":scope > script"));
+})();
+
 function buildFloaty() {
     const layer = document.createElement("div");
     layer.className = "floaty";
@@ -120,6 +130,10 @@ if (bigHeart) {
     });
 }
 
-
+document.addEventListener("click", e => {
+    if (innerWidth >= 900 || !nav.classList.contains("open")) return;
+    if (e.target.closest(".nav, .nav-toggle, .heart-btn")) return;
+    setOpen(nav, false);
+});
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(nav, false); });

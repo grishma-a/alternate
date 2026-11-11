@@ -1,0 +1,326 @@
+/* coffee page only. Every rule is scoped to body.coffee-page or .coffee, so nothing can leak into the shared menu */
+body.coffee-page {
+    --cf-bg: #f6ecdf;
+    --cf-card: #fffaf2;
+    --cf-text: #3b2417;
+    --cf-muted: #8a6a55;
+    --cf-line: #e6d5c0;
+    --cf-accent: #6f4430;
+    --cf-accent2: #c68b59;
+    --cf-on: #fff7ec;
+    --cf-field: #fff;
+    background: var(--cf-bg);
+    color: var(--cf-text);
+    min-height: 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+    body.coffee-page {
+        --cf-bg: #1d110b;
+        --cf-card: #2b1a12;
+        --cf-text: #f3e4d2;
+        --cf-muted: #b99a82;
+        --cf-line: #472d1f;
+        --cf-accent: #c68b59;
+        --cf-accent2: #e2b27c;
+        --cf-on: #24150e;
+        --cf-field: #1d110b;
+    }
+}
+
+.coffee {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: calc(5rem + env(safe-area-inset-top, 0px)) 1.1rem 3rem;
+    font-family: var(--hand);
+    font-size: 1.3rem;
+    line-height: 1.4;
+    text-transform: lowercase;
+}
+
+.coffee input,
+.coffee button {
+    text-transform: lowercase;
+}
+
+.coffee h1,
+.coffee h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.coffee h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--cf-accent);
+}
+
+.coffee h2 {
+    font-size: 1.9rem;
+    margin-bottom: .7rem;
+    color: var(--cf-text);
+}
+
+.coffee .sub {
+    color: var(--cf-muted);
+    margin: .4rem 0 1.2rem;
+    font-size: 1.3rem;
+}
+
+.coffee .grid {
+    display: grid;
+    grid-template-columns: minmax(290px, 360px) 1fr;
+    gap: 1.2rem;
+    align-items: start;
+}
+
+@media (max-width: 820px) {
+    .coffee .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .coffee .globe-card {
+        order: -1;
+    }
+}
+
+.coffee .card {
+    background: var(--cf-card);
+    border: 1px solid var(--cf-line);
+    border-radius: 18px;
+    padding: 1.1rem;
+    box-shadow: 0 6px 20px rgba(60, 30, 10, .08);
+}
+
+.coffee label {
+    display: block;
+    font-size: 1.05rem;
+    color: var(--cf-muted);
+    margin: .6rem 0 .25rem;
+}
+
+.coffee input {
+    width: 100%;
+    padding: .65rem .8rem;
+    border: 1.5px solid var(--cf-line);
+    border-radius: 10px;
+    background: var(--cf-field);
+    color: var(--cf-text);
+    font: inherit;
+}
+
+.coffee input:focus {
+    outline: 2px solid var(--cf-accent2);
+    outline-offset: 1px;
+}
+
+.coffee button.add {
+    width: 100%;
+    margin-top: .9rem;
+    padding: .75rem;
+    border: 0;
+    border-radius: 10px;
+    background: var(--cf-accent);
+    color: var(--cf-on);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.coffee button.add:hover {
+    filter: brightness(1.08);
+}
+
+.coffee #msg {
+    min-height: 1.3rem;
+    margin: .5rem 0 0;
+    font-size: .88rem;
+    color: #b3402a;
+}
+
+.coffee .stats {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.coffee .chip {
+    background: var(--cf-card);
+    border: 1px solid var(--cf-line);
+    border-radius: 999px;
+    padding: .25rem .8rem;
+    font-size: 1.1rem;
+    color: var(--cf-accent);
+}
+
+.coffee ul {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    max-height: 340px;
+    overflow: auto;
+}
+
+.coffee li {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .55rem .2rem;
+    border-top: 1px solid var(--cf-line);
+    cursor: pointer;
+}
+
+.coffee li b {
+    display: block;
+    font-weight: 600;
+}
+
+.coffee li span {
+    font-size: 1rem;
+    color: var(--cf-muted);
+}
+
+.coffee li .t {
+    flex: 1;
+    min-width: 0;
+}
+
+.coffee li button {
+    border: 0;
+    background: none;
+    color: var(--cf-muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0 .3rem;
+}
+
+.coffee li button:hover {
+    color: #b3402a;
+}
+
+.coffee .empty {
+    color: var(--cf-muted);
+    font-size: .92rem;
+    margin-top: .8rem;
+}
+
+.coffee .globe-card {
+    position: relative;
+    padding: .6rem;
+    background: linear-gradient(160deg, #3a2418, #1f120b);
+    border-color: #3a2418;
+}
+
+.coffee .globe-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.coffee canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+    cursor: grab;
+}
+
+.coffee #tip {
+    position: absolute;
+    display: none;
+    pointer-events: none;
+    background: #fff7ec;
+    color: #3b2417;
+    border-radius: 10px;
+    padding: .45rem .7rem;
+    font-size: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .4);
+    max-width: 220px;
+    z-index: 5;
+}
+
+.coffee #tip b {
+    display: block;
+    color: #6f4430;
+}
+
+/* hide the dropdown arrow on the country box */
+.coffee #ccountry::-webkit-calendar-picker-indicator {
+    display: none !important;
+    opacity: 0;
+}
+
+.coffee #ccountry::-webkit-list-button {
+    display: none !important;
+}
+
+/* ===== this page only ===== */
+body.coffee-page .floaty {
+    display: none;
+}
+
+body.coffee-page .page {
+    z-index: auto;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #3b2417;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6f4430;
+    border-radius: 4px;
+}
+
+/* stops the page wrapper from trapping the menu button underneath the menu */
+
+/* brown menu heart (drawn as the button's own background; caramel while the menu is open so it stays visible) */
+body.coffee-page .nav-toggle {
+    z-index: 40;
+    display: block;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236f4430' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center / contain no-repeat;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .3));
+}
+
+body.coffee-page .nav-toggle img,
+body.coffee-page .nav-toggle svg {
+    display: none;
+}
+
+body.coffee-page.nav-open .nav-toggle {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23c68b59' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+}
+
+/* brown menu theme (re-colours the shared menu on this page only) */
+body.coffee-page .nav {
+    --cream: #fff7ec;
+    --wine: #6f4430;
+    --rose: #c68b59;
+    --blush: #d9bfa0;
+    --red: #8a4b2a;
+    background: rgba(43, 26, 18, .96);
+    border-right-color: rgba(198, 139, 89, .3);
+}
+
+body.coffee-page .nav a {
+    background: rgba(255, 247, 236, .07);
+    border-color: rgba(198, 139, 89, .4);
+}
+
+body.coffee-page .nav a:hover,
+body.coffee-page .nav a:focus-visible {
+    background: rgba(198, 139, 89, .2);
+}
+
+body.coffee-page .nav a[aria-current="page"] {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--wine);
+}
