@@ -913,3 +913,42 @@ canvas {
         bottom: -16px;
     }
 }
+
+.hats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.hat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    /* Pushes the caption to the bottom of the card */
+    height: 220px;
+    /* Gives every card a uniform height */
+
+}
+
+.hat-image {
+    max-height: 150px;
+    /* Forces all images to fit within this height limit */
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    object-fit: contain;
+}
+
+.resize-hat {
+    height: 160px !important;
+    width: 300px !important;
+}
+
+.hat-caption {
+    margin-top: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+}

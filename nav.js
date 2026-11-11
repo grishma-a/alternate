@@ -5,6 +5,7 @@ const LINKS = [
     { label: "valentine's website", href: "https://grishma-a.github.io/valentines-website/index.html", external: true },
     { label: "nbf day", href: "https://grishma-a.github.io/nbfday/index.html", external: true },
     { label: "coffee", href: "coffee.html", external: false },
+    { label: "hats", href: "hats.html", external: false },
     { label: "27 months", href: "27months.html", external: false },
     { label: "28 months", href: "28months.html", external: false }
     // { label: "Next page", href: "next-page.html", external: false },
