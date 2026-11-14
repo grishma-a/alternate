@@ -4,15 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To My Dearest - 28 Months</title>
+    <title>28 months</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="images/heart.png" type="image/png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { corePlugins: { preflight: false } }</script>
 
-
     <style>
+        body {
+            color: #8B4513 !important;
+        }
+
         body {
             overflow-x: hidden;
         }
@@ -20,9 +23,8 @@
         .serif-font,
         .handwritten {
             font-family: var(--hand);
+
         }
-
-
 
         /* Falling autumn leaves canvas */
         #leaves-canvas {
@@ -36,7 +38,6 @@
         }
 
         /* Airplane animation */
-
         @keyframes flyPath {
             0% {
                 transform: translate(-110%, 78vh) rotate(-7deg);
@@ -107,36 +108,94 @@
             border: 2px dashed rgba(255, 255, 255, 0.2);
         }
 
-        /* Puzzle Heart Clip Path / Grid Styles */
-        .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 4px;
-            width: 320px;
-            height: 320px;
-            clip-path: polygon(50% 15%, 65% 2%, 85% 2%, 98% 20%, 98% 45%, 50% 95%, 2% 45%, 2% 20%, 15% 2%, 35% 2%);
-            background: #380a11;
-            padding: 4px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .puzzle-piece {
-            overflow: hidden;
+        /* ---------- Heart jigsaw puzzle ---------- */
+        #puzzleArea {
             position: relative;
-            background-size: 320px 320px;
-            transition: transform 0.3s ease;
+            width: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
         }
 
-        .puzzle-piece:hover {
-            transform: scale(1.05);
+        #pzBoard {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        #pzSlots {
+            position: absolute;
+            inset: 0;
+            clip-path: url(#pzHeartClip);
+        }
+
+        #pzOver {
+            position: absolute;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        #pzFinal {
+            position: absolute;
+            inset: 0;
+            background-repeat: no-repeat;
+            clip-path: url(#pzHeartClip);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            pointer-events: none;
+            z-index: 51;
+        }
+
+        .pz-slot-svg {
+            position: absolute;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .pz-piece {
+            position: absolute;
+            left: 0;
+            top: 0;
             z-index: 10;
+            cursor: grab;
+            touch-action: none;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .45));
+            transition: transform .25s cubic-bezier(.2, .8, .2, 1), opacity .6s;
+            overflow: visible;
+        }
+
+        .pz-piece.dragging {
+            cursor: grabbing;
+            transition: none;
+            z-index: 100 !important;
+            filter: drop-shadow(0 16px 28px rgba(0, 0, 0, .65));
+        }
+
+        .pz-piece.placed {
+            cursor: default;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .3));
         }
     </style>
 </head>
 
 <body class="selection:bg-rose-900 selection:text-white">
     <button class="nav-toggle" aria-label="Open the menu" aria-controls="site-nav" aria-expanded="false"></button>
+
+    <!-- Soft & rounded heart shape used for clipping puzzle image & hit-testing -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <clipPath id="pzHeartClip" clipPathUnits="objectBoundingBox">
+                <path
+                    d="M 0.5,0.88 C 0.18,0.64 0.03,0.44 0.03,0.28 C 0.03,0.13 0.15,0.04 0.3,0.04 C 0.4,0.04 0.47,0.09 0.5,0.18 C 0.53,0.09 0.6,0.04 0.7,0.04 C 0.85,0.04 0.97,0.13 0.97,0.28 C 0.97,0.44 0.82,0.64 0.5,0.88 Z" />
+            </clipPath>
+        </defs>
+        <path id="pzHeartTest"
+            d="M 0.5,0.88 C 0.18,0.64 0.03,0.44 0.03,0.28 C 0.03,0.13 0.15,0.04 0.3,0.04 C 0.4,0.04 0.47,0.09 0.5,0.18 C 0.53,0.09 0.6,0.04 0.7,0.04 C 0.85,0.04 0.97,0.13 0.97,0.28 C 0.97,0.44 0.82,0.64 0.5,0.88 Z" />
+    </svg>
 
     <!-- Background Falling Autumn Leaves Canvas -->
     <canvas id="leaves-canvas"></canvas>
@@ -147,9 +206,9 @@
     <div class="page relative min-h-screen flex flex-col justify-between">
         <!-- Top Navigation / Header -->
         <header class="relative z-20 w-full py-8 px-6 text-center">
-            <p class="handwritten text-2xl text-rose-200 tracking-wider mb-1">October &bull; 28 Months Together</p>
-            <h1 class="serif-font text-4xl md:text-6xl font-medium tracking-wide text-white drop-shadow-md">To My
-                Dearest
+            <p class="handwritten text-2xl text-rose-200 tracking-wider mb-1">another month of gribby</p>
+            <h1 class="serif-font text-4xl md:text-6xl font-medium tracking-wide text-white drop-shadow-md">happy 28
+                month anniversary
             </h1>
             <div class="w-24 h-[1px] bg-rose-300/40 mx-auto mt-4"></div>
         </header>
@@ -171,69 +230,86 @@
                     </div>
 
                     <!-- Wax Seal -->
-                    <div class="absolute top-20 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                    <div class="absolute top-14 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
                         <div class="wax-seal">
                             <span class="handwritten text-xl text-amber-100 font-bold">28</span>
                         </div>
                     </div>
 
                     <!-- Letter Preview / Summary Header inside envelope -->
-                    <div class="pt-12 pb-4 text-center">
-                        <p class="handwritten text-3xl text-rose-900 font-bold">To my dearest...</p>
-                        <p class="serif-font text-sm text-stone-600 mt-1">Happy 28 Months Anniversary</p>
+                    <div class="pt-16 pb-4 text-center">
+                        <p class="handwritten text-3xl text-rose-900 font-bold">to chibster</p>
+                        <p class="serif-font text-sm text-stone-600 mt-1">happy 28 month anniversary</p>
                     </div>
 
-                    <!-- Full Letter Content (Hidden/Shown on click) -->
+                    <!-- Full Letter Content -->
                     <div id="letter-content"
                         class="hidden mt-6 pt-6 border-t border-stone-300 transition-all duration-700">
                         <p class="handwritten text-2xl leading-relaxed text-stone-800">
-                            My love,
+                            oh my dear chibby chib chib,
                         </p>
                         <p class="handwritten text-xl leading-relaxed text-stone-800 mt-3">
-                            Twenty-eight months of loving you, of sharing our lives across miles, and counting down
-                            every
-                            single flight until I get to hold you again. No matter how many planes I take or how many
-                            miles
-                            are between us, every second is worth it because it leads right back to you.
+                            i dont know what i would do without you. when i wake up all i can think of is showing you my
+                            outfit and updating you on everything i do. i love seeing your admiration for coffee, i love
+                            celebrating your 100s in grad school, i love supporting you while you work late, and i love
+                            spending time with you even if i get food poisioning and an eye infection. ive spent
+                            twenty eight months loving you across many miles, and i know you've done the same. i'll keep
+                            counting down every single flight until i get to hold you again. no matter how many planes i
+                            take or how many miles are between us, every second is worth it because it leads right back
+                            to you.
                         </p>
                         <p class="handwritten text-xl leading-relaxed text-stone-800 mt-3">
-                            Thank you for being my home, my comfort, and my absolute favorite part of every day. Here is
-                            to
-                            28 months of beautiful memories, and a lifetime more to come.
+                            thank you for being my home, my comfort, and my absolute favorite part of every day. here's
+                            to 28 months of beautiful memories, and a lifetime more to come.
                         </p>
                         <p class="handwritten text-2xl text-rose-900 text-right mt-6">
-                            Forever yours &bull;
+                            forever yours, <br>
+                            grishi maraj
                         </p>
                     </div>
 
                     <div class="text-center mt-4">
                         <span id="envelope-prompt"
-                            class="text-xs uppercase tracking-widest text-stone-500 font-semibold">Click to Read
-                            Letter</span>
+                            class="text-xs uppercase tracking-widest text-stone-500 font-semibold">click to read
+                            letter</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Section 2: Heart Puzzle Photo Collage -->
+            <!-- Section 2: Heart Jigsaw Puzzle -->
             <section class="w-full flex flex-col items-center py-6">
                 <div class="text-center mb-8">
-                    <h2 class="serif-font text-3xl md:text-4xl text-white font-normal">Pieces of My Heart</h2>
-                    <p class="handwritten text-xl text-rose-200 mt-1">Interlocking memories across the distance</p>
+                    <h2 class="serif-font text-3xl md:text-4xl text-white font-normal">pieces of my heart</h2>
+                    <p class="handwritten text-xl text-rose-200 mt-1">drag the pieces onto the heart to put us back
+                        together</p>
                 </div>
 
-                <!-- Puzzle Heart Container -->
                 <div
-                    class="relative p-6 bg-gradient-to-b from-[#5c0f18]/60 to-[#380a11]/80 rounded-2xl border border-rose-300/20 backdrop-blur-sm shadow-2xl flex flex-col items-center">
-
-                    <!-- The 4x4 Puzzle Heart Grid -->
-                    <div class="puzzle-grid" id="puzzleContainer">
-                        <!-- Javascript will slice and populate background positions for true photo puzzle effect -->
+                    class="relative w-full p-4 md:p-6 bg-gradient-to-b from-[#5c0f18]/60 to-[#380a11]/80 rounded-2xl border border-rose-300/20 backdrop-blur-sm shadow-2xl">
+                    <div class="flex items-center justify-between mb-3 text-sm text-rose-200/80">
+                        <span id="pzCount">0 / 0 pieces placed</span>
+                        <button id="pzReset" type="button"
+                            class="px-4 py-1.5 rounded-full border border-rose-300/40 text-rose-100 hover:bg-rose-300/10 cursor-pointer">Start
+                            over</button>
                     </div>
 
-                    <div class="mt-6 flex items-center gap-6 text-sm text-rose-200/80 font-light">
-                        <span>&bull; 28 Months</span>
-                        <span>&bull; Endless Countdowns</span>
-                        <span>&bull; One Heart</span>
+                    <div id="puzzleArea">
+                        <!-- Board: Soft dashed heart outline with slots that pieces snap into -->
+                        <div id="pzBoard">
+                            <svg viewBox="0 0 1 1" preserveAspectRatio="none"
+                                style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;">
+                                <path
+                                    d="M 0.5,0.88 C 0.18,0.64 0.03,0.44 0.03,0.28 C 0.03,0.13 0.15,0.04 0.3,0.04 C 0.4,0.04 0.47,0.09 0.5,0.18 C 0.53,0.09 0.6,0.04 0.7,0.04 C 0.85,0.04 0.97,0.13 0.97,0.28 C 0.97,0.44 0.82,0.64 0.5,0.88 Z"
+                                    fill="rgba(255,255,255,.03)" stroke="rgba(252,231,230,.5)" stroke-width=".008"
+                                    stroke-dasharray=".02 .015" />
+                            </svg>
+                            <div id="pzSlots"></div>
+                        </div>
+
+                        <!-- Finished picture -->
+                        <div id="pzOver">
+                            <div id="pzFinal"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -241,39 +317,39 @@
             <!-- Section 3: Polaroid Photo Strip & Memories -->
             <section class="w-full flex flex-col items-center py-6">
                 <div class="text-center mb-10">
-                    <h2 class="serif-font text-3xl text-white font-normal">Our Gallery</h2>
-                    <p class="handwritten text-xl text-rose-200">Captured moments in time</p>
+                    <h2 class="serif-font text-3xl text-white font-normal"> moments from month 27</h2>
+                    <p class="handwritten text-xl text-rose-200">gribby together 4ever</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
                     <!-- Polaroid 1 -->
                     <div class="polaroid transform -rotate-2">
                         <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
-                            <img src="https://placehold.co/400x500/7a1c29/fce7e6?text=Our+First+Flight" alt="Memory 1"
+                            <img src="images/kites.jpg"
                                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
                                 onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+1'">
                         </div>
-                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Airport goodbyes & hellos</p>
+                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">flying kites together</p>
                     </div>
 
                     <!-- Polaroid 2 -->
                     <div class="polaroid transform rotate-1 mt-4 md:mt-0">
                         <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
-                            <img src="https://placehold.co/400x500/5c0f18/fce7e6?text=Autumn+Walks" alt="Memory 2"
+                            <img src="images/boba.jpg"
                                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
                                 onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+2'">
                         </div>
-                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Fall weather with you</p>
+                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">boba together</p>
                     </div>
 
                     <!-- Polaroid 3 -->
                     <div class="polaroid transform -rotate-1 mt-4 md:mt-0">
                         <div class="w-full h-64 bg-stone-200 overflow-hidden relative">
-                            <img src="https://placehold.co/400x500/380a11/fce7e6?text=28+Months" alt="Memory 3"
+                            <img src="images/coworker.png"
                                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
                                 onerror="this.src='https://placehold.co/400x500/380a11/fce7e6?text=Memory+3'">
                         </div>
-                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">Counting every month</p>
+                        <p class="handwritten text-2xl text-stone-800 mt-4 text-center">fav coworker</p>
                     </div>
                 </div>
             </section>
@@ -282,12 +358,11 @@
 
         <!-- Footer -->
         <footer class="relative z-20 w-full py-10 text-center border-t border-rose-900/40 mt-12 bg-[#380a11]/60">
-            <p class="serif-font text-lg text-rose-200">Forever & Always</p>
-            <p class="handwritten text-2xl text-rose-300 mt-1">28 Months & Counting</p>
+            <p class="serif-font text-lg text-rose-200">youre my world</p>
+            <p class="handwritten text-2xl text-rose-300 mt-1">never forget that </p>
         </footer>
     </div>
 
-    <!-- JavaScript for Falling Autumn Leaves & Interactive Letter & Puzzle Generation -->
     <script>
         // 1. Envelope Letter Toggle Function
         function toggleLetter() {
@@ -302,25 +377,301 @@
             }
         }
 
-        // 2. Generate Puzzle Pieces with a sample collage photo background
-        window.addEventListener('DOMContentLoaded', () => {
-            const puzzleContainer = document.getElementById('puzzleContainer');
-            // Using a rich aesthetic fall/couple placeholder image URL
-            const imageUrl = 'https://placehold.co/320x320/7a1c29/fce7e6?text=Our+Love+Story';
+        // 2. Interlocking Heart Jigsaw Puzzle Script
+        (function () {
+            const SRC = 'images/halloween.png';   // the picture of you two
+            const N = 6;                       // grid size
+            const TAB_SIZE = 0.22;
+            const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d9777f'/%3E%3Cstop offset='1' stop-color='%237a1c29'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='800' fill='url(%23g)'/%3E%3Ctext x='400' y='470' font-size='300' text-anchor='middle' fill='%23fff7ec'%3E%E2%99%A5%3C/text%3E%3C/svg%3E";
 
-            for (let i = 0; i < 16; i++) {
-                const row = Math.floor(i / 4);
-                const col = i % 4;
-                const piece = document.createElement('div');
-                piece.className = 'puzzle-piece rounded-sm shadow-inner';
-                piece.style.backgroundImage = `url(${imageUrl})`;
-                piece.style.backgroundPosition = `-${col * 80}px -${row * 80}px`;
-                piece.style.backgroundSize = '320px 320px';
-                puzzleContainer.appendChild(piece);
+            const $ = id => document.getElementById(id);
+            const area = $('puzzleArea'), board = $('pzBoard'), over = $('pzOver'), final = $('pzFinal'),
+                slotsEl = $('pzSlots'), count = $('pzCount'), test = $('pzHeartTest');
+
+            let src = SRC, iw = 1, ih = 1, B = 400, cell = 60, bx = 0, by = 8, lastW = 0,
+                cells = [], pieces = [], edges = {}, placed = 0, done = false;
+
+            const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; };
+            const inHeart = (x, y) => test.isPointInFill(new DOMPoint(x, y));
+            const updateCount = () => { count.textContent = placed + ' / ' + pieces.length + ' pieces placed'; };
+
+            // Determine grid squares that fall within the heart shape
+            function computeCells() {
+                cells = [];
+                for (let r = 0; r < N; r++) {
+                    for (let c = 0; c < N; c++) {
+                        let hit = 0;
+                        for (let a = 0; a < 5; a++) {
+                            for (let b = 0; b < 5; b++) {
+                                if (inHeart((c + (a + .5) / 5) / N, (r + (b + .5) / 5) / N)) hit++;
+                            }
+                        }
+                        if (hit / 25 >= .35) cells.push({ c, r, key: `${c},${r}` });
+                    }
+                }
+
+                // Generate matching tab-to-socket edge directions between adjacent cells
+                edges = {};
+                cells.forEach(({ c, r }) => {
+                    if (cells.some(cell => cell.key === `${c + 1},${r}`)) {
+                        edges[`H:${c},${r}`] = Math.random() < 0.5 ? 1 : -1;
+                    }
+                    if (cells.some(cell => cell.key === `${c},${r + 1}`)) {
+                        edges[`V:${c},${r}`] = Math.random() < 0.5 ? 1 : -1;
+                    }
+                });
             }
-        });
 
-        // 3. Falling Autumn Leaves Canvas Animation (Soft leaf shapes, warm autumn tones)
+            // Generate SVG path for a piece with perfectly matching tabs and sockets
+            function getPiecePath(c, r, sz) {
+                // Top edge: inverse of cell above's bottom tab
+                const topTab = (r > 0 && edges[`V:${c},${r - 1}`]) ? -edges[`V:${c},${r - 1}`] : 0;
+                // Right edge: cell's own right tab
+                const rightTab = edges[`H:${c},${r}`] || 0;
+                // Bottom edge: cell's own bottom tab
+                const bottomTab = edges[`V:${c},${r}`] || 0;
+                // Left edge: inverse of cell on left's right tab
+                const leftTab = (c > 0 && edges[`H:${c - 1},${r}`]) ? -edges[`H:${c - 1},${r}`] : 0;
+
+                const t = sz * TAB_SIZE;
+                let d = `M 0,0`;
+
+                // Top Edge
+                if (topTab !== 0) {
+                    d += ` L ${sz * 0.35},0 C ${sz * 0.35},${-topTab * t * 0.6} ${sz * 0.42},${-topTab * t} ${sz * 0.5},${-topTab * t} C ${sz * 0.58},${-topTab * t} ${sz * 0.65},${-topTab * t * 0.6} ${sz * 0.65},0`;
+                }
+                d += ` L ${sz},0`;
+
+                // Right Edge
+                if (rightTab !== 0) {
+                    d += ` L ${sz},${sz * 0.35} C ${sz + rightTab * t * 0.6},${sz * 0.35} ${sz + rightTab * t},${sz * 0.42} ${sz + rightTab * t},${sz * 0.5} C ${sz + rightTab * t},${sz * 0.58} ${sz + rightTab * t * 0.6},${sz * 0.65} ${sz},${sz * 0.65}`;
+                }
+                d += ` L ${sz},${sz}`;
+
+                // Bottom Edge
+                if (bottomTab !== 0) {
+                    d += ` L ${sz * 0.65},${sz} C ${sz * 0.65},${sz + bottomTab * t * 0.6} ${sz * 0.58},${sz + bottomTab * t} ${sz * 0.5},${sz + bottomTab * t} C ${sz * 0.42},${sz + bottomTab * t} ${sz * 0.35},${sz + bottomTab * t * 0.6} ${sz * 0.35},${sz}`;
+                }
+                d += ` L 0,${sz}`;
+
+                // Left Edge
+                if (leftTab !== 0) {
+                    d += ` L 0,${sz * 0.65} C ${leftTab * t * 0.6},${sz * 0.65} ${leftTab * t},${sz * 0.58} ${leftTab * t},${sz * 0.5} C ${leftTab * t},${sz * 0.42} ${leftTab * t * 0.6},${sz * 0.35} 0,${sz * 0.35}`;
+                }
+                d += ` Z`;
+
+                return d;
+            }
+
+            function build() {
+                pieces.forEach(p => p.el.remove());
+                pieces = [];
+                placed = 0;
+                done = false;
+
+                cells.forEach(({ c, r }) => {
+                    const el = document.createElement('div');
+                    el.className = 'pz-piece';
+                    const p = { el, c, r, x: 0, y: 0, rot: 0, placed: false };
+                    el.addEventListener('pointerdown', e => down(e, p));
+                    area.appendChild(el);
+                    pieces.push(p);
+                });
+            }
+
+            function layout() {
+                const W = area.clientWidth, wide = W >= 720;
+                lastW = W;
+                B = wide ? Math.min(Math.floor(W * .5), 480) : Math.min(W - 8, 360);
+                cell = B / N;
+                bx = Math.round((W - B) / 2);
+                const BH = B * .94;
+
+                [board, over].forEach(el => Object.assign(el.style, {
+                    left: bx + 'px',
+                    top: by + 'px',
+                    width: B + 'px',
+                    height: B + 'px'
+                }));
+
+                const s = Math.max(B / iw, B / ih), dw = iw * s, dh = ih * s, ox = (B - dw) / 2, oy = (B - dh) / 2;
+
+                Object.assign(final.style, {
+                    backgroundImage: `url("${src}")`,
+                    backgroundSize: `${dw}px ${dh}px`,
+                    backgroundPosition: `${ox}px ${oy}px`
+                });
+
+                slotsEl.innerHTML = '';
+                const margin = cell * TAB_SIZE * 1.5;
+
+                // Render slots clipped inside the heart shape
+                cells.forEach(({ c, r }) => {
+                    const pathD = getPiecePath(c, r, cell);
+                    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.setAttribute('class', 'pz-slot-svg');
+                    svg.setAttribute('width', cell + margin * 2);
+                    svg.setAttribute('height', cell + margin * 2);
+                    svg.setAttribute('viewBox', `${-margin} ${-margin} ${cell + margin * 2} ${cell + margin * 2}`);
+                    Object.assign(svg.style, {
+                        left: (c * cell - margin) + 'px',
+                        top: (r * cell - margin) + 'px'
+                    });
+
+                    svg.innerHTML = `<path d="${pathD}" fill="rgba(255,255,255,0.02)" stroke="rgba(252,231,230,0.22)" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+                    slotsEl.appendChild(svg);
+                });
+
+                // Render puzzle pieces clipped inside the heart silhouette
+                pieces.forEach(p => {
+                    const pathD = getPiecePath(p.c, p.r, cell);
+                    const clipId = `clip-${p.c}-${p.r}`;
+
+                    p.el.style.width = (cell + margin * 2) + 'px';
+                    p.el.style.height = (cell + margin * 2) + 'px';
+
+                    const pieceImgX = ox - (p.c * cell) + margin;
+                    const pieceImgY = oy - (p.r * cell) + margin;
+
+                    p.el.innerHTML = `
+                        <svg width="${cell + margin * 2}" height="${cell + margin * 2}" viewBox="${-margin} ${-margin} ${cell + margin * 2} ${cell + margin * 2}" style="overflow:visible;">
+                            <defs>
+                                <clipPath id="${clipId}">
+                                    <path d="${pathD}" />
+                                </clipPath>
+                                <clipPath id="${clipId}-heart">
+                                    <path d="M ${0.5 * B - p.c * cell},${0.88 * B - p.r * cell} C ${0.18 * B - p.c * cell},${0.64 * B - p.r * cell} ${0.03 * B - p.c * cell},${0.44 * B - p.r * cell} ${0.03 * B - p.c * cell},${0.28 * B - p.r * cell} C ${0.03 * B - p.c * cell},${0.13 * B - p.r * cell} ${0.15 * B - p.c * cell},${0.04 * B - p.r * cell} ${0.3 * B - p.c * cell},${0.04 * B - p.r * cell} C ${0.4 * B - p.c * cell},${0.04 * B - p.r * cell} ${0.47 * B - p.c * cell},${0.09 * B - p.r * cell} ${0.5 * B - p.c * cell},${0.18 * B - p.r * cell} C ${0.53 * B - p.c * cell},${0.09 * B - p.r * cell} ${0.6 * B - p.c * cell},${0.04 * B - p.r * cell} ${0.7 * B - p.c * cell},${0.04 * B - p.r * cell} C ${0.85 * B - p.c * cell},${0.04 * B - p.r * cell} ${0.97 * B - p.c * cell},${0.13 * B - p.r * cell} ${0.97 * B - p.c * cell},${0.28 * B - p.r * cell} C ${0.97 * B - p.c * cell},${0.44 * B - p.r * cell} ${0.82 * B - p.c * cell},${0.64 * B - p.r * cell} ${0.5 * B - p.c * cell},${0.88 * B - p.r * cell} Z" />
+                                </clipPath>
+                            </defs>
+                            <g clip-path="url(#${clipId})">
+                                <g clip-path="url(#${clipId}-heart)">
+                                    <image href="${src}" x="${pieceImgX - margin}" y="${pieceImgY - margin}" width="${dw}" height="${dh}" />
+                                </g>
+                            </g>
+                            <path d="${pathD}" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1" />
+                        </svg>
+                    `;
+                });
+
+                const loose = pieces.filter(p => !p.placed), gap = 8;
+                const fill = (list, x0, y0, w) => {
+                    const cols = Math.max(1, Math.floor((w + gap) / (cell + gap))), used = cols * (cell + gap) - gap;
+                    list.forEach((p, i) => {
+                        p.x = x0 + (w - used) / 2 + (i % cols) * (cell + gap) - margin;
+                        p.y = y0 + Math.floor(i / cols) * (cell + gap) - margin;
+                        p.rot = Math.random() * 10 - 5;
+                    });
+                    return Math.ceil(list.length / cols) * (cell + gap);
+                };
+
+                let h;
+                if (wide) {
+                    const zw = bx - 16, ha = fill(loose.filter((_, i) => i % 2 === 0), 8, by, zw), hb = fill(loose.filter((_, i) => i % 2), bx + B + 8, by, zw);
+                    h = Math.max(by + BH, by + ha, by + hb) + 8;
+                } else {
+                    const ht = fill(loose, 4, by + BH + 14, W - 8);
+                    h = by + BH + 14 + ht + 8;
+                }
+                area.style.height = h + 'px';
+
+                pieces.forEach(p => {
+                    if (p.placed) {
+                        p.x = bx + p.c * cell - margin;
+                        p.y = by + p.r * cell - margin;
+                        p.rot = 0;
+                    }
+                    p.el.style.transform = `translate(${p.x}px,${p.y}px) rotate(${p.rot}deg)`;
+                });
+            }
+
+            function down(e, p) {
+                if (p.placed || done) return;
+                e.preventDefault();
+                const rc = area.getBoundingClientRect(), ox = e.clientX - rc.left - p.x, oy = e.clientY - rc.top - p.y;
+                p.el.setPointerCapture(e.pointerId);
+                p.el.classList.add('dragging');
+                p.rot = 0;
+                p.el.style.transform = `translate(${p.x}px,${p.y}px) rotate(0deg)`;
+
+                const mv = ev => {
+                    const r2 = area.getBoundingClientRect();
+                    p.x = ev.clientX - r2.left - ox;
+                    p.y = ev.clientY - r2.top - oy;
+                    p.el.style.transform = `translate(${p.x}px,${p.y}px) rotate(0deg)`;
+                };
+
+                const up = () => {
+                    p.el.removeEventListener('pointermove', mv);
+                    p.el.removeEventListener('pointerup', up);
+                    p.el.removeEventListener('pointercancel', up);
+                    p.el.classList.remove('dragging');
+                    drop(p);
+                };
+                p.el.addEventListener('pointermove', mv);
+                p.el.addEventListener('pointerup', up);
+                p.el.addEventListener('pointercancel', up);
+            }
+
+            function drop(p) {
+                const margin = cell * TAB_SIZE * 1.5;
+                const tx = bx + p.c * cell - margin, ty = by + p.r * cell - margin;
+                if (Math.hypot(p.x - tx, p.y - ty) < cell * .5) {
+                    p.x = tx;
+                    p.y = ty;
+                    p.rot = 0;
+                    p.placed = true;
+                    p.el.classList.add('placed');
+                    p.el.style.zIndex = 2;
+                    p.el.style.transform = `translate(${p.x}px,${p.y}px) rotate(0deg)`;
+                    placed++;
+                    updateCount();
+                    if (placed === pieces.length) finish();
+                } else {
+                    p.x = Math.max(-margin, Math.min(p.x, area.clientWidth - cell));
+                    p.y = Math.max(-margin, Math.min(p.y, area.clientHeight - cell));
+                    p.el.style.zIndex = 5;
+                    p.el.style.transform = `translate(${p.x}px,${p.y}px) rotate(${p.rot}deg)`;
+                }
+            }
+
+            function finish() {
+                done = true;
+                final.style.opacity = 1;
+                pieces.forEach(p => { p.el.style.opacity = 0; });
+            }
+
+            function reset() {
+                done = false;
+                placed = 0;
+                final.style.opacity = 0;
+                pieces.forEach(p => {
+                    p.placed = false;
+                    p.el.classList.remove('placed');
+                    p.el.style.opacity = 1;
+                    p.el.style.zIndex = 5;
+                });
+                shuffle(pieces);
+                layout();
+                updateCount();
+            }
+            $('pzReset').addEventListener('click', reset);
+
+            function init() {
+                computeCells();
+                build();
+                shuffle(pieces);
+                layout();
+                updateCount();
+                new ResizeObserver(() => { if (area.clientWidth !== lastW) layout(); }).observe(area);
+            }
+
+            const im = new Image();
+            im.onload = () => { iw = im.naturalWidth; ih = im.naturalHeight; init(); };
+            im.onerror = () => { src = FALLBACK; iw = ih = 800; init(); };
+            im.src = SRC;
+        })();
+
+        // 3. Falling Autumn Leaves Canvas Animation
         const canvas = document.getElementById('leaves-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -333,7 +684,6 @@
 
         const leaves = [];
         const leafCount = 25;
-        // Warm autumn color palette (deep reds, amber, terracotta)
         const leafColors = ['#8c1c28', '#b33939', '#d97706', '#991b1b', '#b45309'];
 
         for (let i = 0; i < leafCount; i++) {
@@ -357,7 +707,6 @@
             ctx.fillStyle = leaf.color;
             ctx.globalAlpha = leaf.opacity;
 
-            // Simple aesthetic leaf vector path
             ctx.beginPath();
             ctx.moveTo(0, -leaf.size);
             ctx.bezierCurveTo(leaf.size / 2, -leaf.size / 2, leaf.size / 2, leaf.size / 2, 0, leaf.size);
@@ -375,7 +724,6 @@
                 leaf.x += leaf.speedX + Math.sin(leaf.y * 0.02) * 0.3;
                 leaf.rotation += leaf.rotationSpeed;
 
-                // Reset leaf to top if it goes off screen
                 if (leaf.y > canvas.height + 20) {
                     leaf.y = -20;
                     leaf.x = Math.random() * canvas.width;
